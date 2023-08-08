@@ -1,15 +1,19 @@
 import React, { useState } from "react";
-
-
-const AddTodo = ({AddTodo}) => {
+import { ADD_todo } from "../actions";
+import { connect } from "react-redux";
+import DisplayCount from "./DisplayCount";
+import data from "../reducers/addData";
+import { v4 } from "uuid";
+const AddTodo = ({ADD_todo}) => {
   const [todo, settodo] = useState({
         title:'',
-        description:''
+        description:'',
+        id:''
     })
     const handleSubmit = (e) =>{
        e.preventDefault();
        console.log(todo);
-       AddTodo(todo);
+       ADD_todo({...todo, id:v4()});
        settodo({
         title:'',
         description:''
@@ -58,4 +62,14 @@ const AddTodo = ({AddTodo}) => {
   );
 };
 
-export default AddTodo;
+const mapStateToProps=(state)=>({
+
+})
+
+const mapDispatchToProps=(dispatch)=>({
+  ADD_todo:(todo)=>(
+    dispatch(ADD_todo(todo))
+  )
+})
+
+export default connect(mapStateToProps,mapDispatchToProps) (AddTodo);
